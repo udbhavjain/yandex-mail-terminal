@@ -53,7 +53,7 @@ public class YandexMail {
             {
                 if(field.contains("="))
                 {String[] tagval = field.split("=",2);
-                cookieMap.put(tagval[0],tagval[1]);}
+                    cookieMap.put(tagval[0],tagval[1]);}
                 else singles.add(field);
             }
         }
@@ -79,24 +79,24 @@ public class YandexMail {
     public CloseableHttpResponse sendGetRequest(String url, HttpClient client) throws IOException
     {
 
-            RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(10000).build();
-            HttpGet get = new HttpGet(url);
-            get.setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36");
-            get.setHeader("Accept", "text/html");
-            get.setHeader("Accept-Encoding", "gzip, deflate, sdch, br");
-            get.setHeader("Accept-Language", "en-GB,en-US;q=0.8,en;q=0.6");
-            get.setHeader("Connection", "keep-alive");
-            get.setHeader("Referer",currentPage);
-            get.setConfig(config);
-            if (cookieMap.size() != 0) get.setHeader("Cookie", getCookie());
+        RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(10000).build();
+        HttpGet get = new HttpGet(url);
+        get.setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36");
+        get.setHeader("Accept", "text/html");
+        get.setHeader("Accept-Encoding", "gzip, deflate, sdch, br");
+        get.setHeader("Accept-Language", "en-GB,en-US;q=0.8,en;q=0.6");
+        get.setHeader("Connection", "keep-alive");
+        get.setHeader("Referer",currentPage);
+        get.setConfig(config);
+        if (cookieMap.size() != 0) get.setHeader("Cookie", getCookie());
 
-           // System.out.println("\nSending GET request to : " + url);
+        // System.out.println("\nSending GET request to : " + url);
 
-            CloseableHttpResponse response = null;
-            response = (CloseableHttpResponse) client.execute(get);
-           // System.out.println(response.getStatusLine());
-            currentPage = url;
-            return response;
+        CloseableHttpResponse response = null;
+        response = (CloseableHttpResponse) client.execute(get);
+        // System.out.println(response.getStatusLine());
+        currentPage = url;
+        return response;
 
 
     }
@@ -105,26 +105,26 @@ public class YandexMail {
     {
 
 
-            HttpPost post = new HttpPost(url);
-            try {
-                post.setEntity(new UrlEncodedFormEntity(Arrays.asList(pairs)));
-            }catch(UnsupportedEncodingException ux){};
-            post.setHeader("Content-Type", "application/x-www-form-urlencoded");
-            post.setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36");
-            post.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-            post.setHeader("Accept-Encoding", "gzip, deflate, sdch, br");
-            post.setHeader("Accept-Language", "en-GB,en-US;q=0.8,en;q=0.6");
-            post.setHeader("Connection", "keep-alive");
-            if (cookieMap.size() != 0) post.setHeader("Cookie", getCookie());
+        HttpPost post = new HttpPost(url);
+        try {
+            post.setEntity(new UrlEncodedFormEntity(Arrays.asList(pairs)));
+        }catch(UnsupportedEncodingException ux){};
+        post.setHeader("Content-Type", "application/x-www-form-urlencoded");
+        post.setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36");
+        post.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+        post.setHeader("Accept-Encoding", "gzip, deflate, sdch, br");
+        post.setHeader("Accept-Language", "en-GB,en-US;q=0.8,en;q=0.6");
+        post.setHeader("Connection", "keep-alive");
+        if (cookieMap.size() != 0) post.setHeader("Cookie", getCookie());
 
-            //System.out.println("\nSending POST request to : " + url);
+        //System.out.println("\nSending POST request to : " + url);
 
-            CloseableHttpResponse response = (CloseableHttpResponse) client.execute(post);
+        CloseableHttpResponse response = (CloseableHttpResponse) client.execute(post);
 
-            //System.out.println(response.getStatusLine());
-            currentPage = url;
+        //System.out.println(response.getStatusLine());
+        currentPage = url;
 
-            return response;
+        return response;
 
 
 
@@ -133,18 +133,18 @@ public class YandexMail {
     public String downloadPage(CloseableHttpResponse response) throws IOException
     {
 
-            InputStream instream = response.getEntity().getContent();
+        InputStream instream = response.getEntity().getContent();
 
-            byte[] buff = new byte[1024];
-            ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            int read = 0;
+        byte[] buff = new byte[1024];
+        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        int read = 0;
 
-            instream = response.getEntity().getContent();
+        instream = response.getEntity().getContent();
 
-            while ((read = instream.read(buff)) != -1) {
-                bout.write(buff, 0, read);
-            }
-            response.close();
+        while ((read = instream.read(buff)) != -1) {
+            bout.write(buff, 0, read);
+        }
+        response.close();
 
         return new String(bout.toByteArray());
 
@@ -236,39 +236,39 @@ public class YandexMail {
             switch (cmd) {
                 case ("open"): {
 
-                        System.out.println("Enter index number: ");
-                        int index;
-                        boolean valid = true;
-                        do {
-                            while (!input.hasNextInt()) {
-                                input.next();
-                                System.out.print("Please enter an integer: ");
-                            }
-                            index = input.nextInt();
-                            if(index > senders.size())
-                            {
-                                System.out.println("Inalid index!");
-                                valid = false;
-                            };
-                        }while(!valid);
+                    System.out.println("Enter index number: ");
+                    int index;
+                    boolean valid = true;
+                    do {
+                        while (!input.hasNextInt()) {
+                            input.next();
+                            System.out.print("Please enter an integer: ");
+                        }
+                        index = input.nextInt();
+                        if(index > senders.size())
+                        {
+                            System.out.println("Inalid index!");
+                            valid = false;
+                        };
+                    }while(!valid);
 
 
-                        JSONObject mail = messageList.get(index - 1);
+                    JSONObject mail = messageList.get(index - 1);
 
-                        try {
-                            CloseableHttpResponse response = sendGetRequest(mail.get(LINK).toString(), client);
-                            setCookies(response.getHeaders("Set-Cookie"));
-                            String content = downloadPage(response);
-                            if (mail.get(TYPE) == THREAD) {
+                    try {
+                        CloseableHttpResponse response = sendGetRequest(mail.get(LINK).toString(), client);
+                        setCookies(response.getHeaders("Set-Cookie"));
+                        String content = downloadPage(response);
+                        if (mail.get(TYPE) == THREAD) {
 
-                                displayHome(content);
-                            } else {
-                                readMail(content);
-                            }
+                            displayHome(content);
+                        } else {
+                            readMail(content);
+                        }
 
 
-                            set = false;
-                        }catch(IOException iox){System.out.println("IO error!");}
+                        set = false;
+                    }catch(IOException iox){System.out.println("IO error!");}
                     break;
 
 
@@ -328,44 +328,44 @@ public class YandexMail {
     public void readMail(String page)
     {
 
-            Document doc = Jsoup.parse(page);
-            doc.outputSettings().prettyPrint(false);
-            Element subject = doc.getElementsByClass("b-message-head__subject-text").get(0);
-            Element date = doc.getElementsByClass("b-message-head__date").get(0);
-            Element receiver = doc.getElementsByClass("b-message-head__email").get(0);
-            Element sender_mail= doc.getElementsByClass("b-message-head__email").get(1);
-            Element sender_name = doc.getElementsByClass("b-message-head__person").get(0);
-            Element content = doc.getElementsByClass("b-message-body__content").get(0);
+        Document doc = Jsoup.parse(page);
+        doc.outputSettings().prettyPrint(false);
+        Element subject = doc.getElementsByClass("b-message-head__subject-text").get(0);
+        Element date = doc.getElementsByClass("b-message-head__date").get(0);
+        Element receiver = doc.getElementsByClass("b-message-head__email").get(0);
+        Element sender_mail= doc.getElementsByClass("b-message-head__email").get(1);
+        Element sender_name = doc.getElementsByClass("b-message-head__person").get(0);
+        Element content = doc.getElementsByClass("b-message-body__content").get(0);
 
 
-            WordUtils util = new WordUtils();
-            System.out.println( "\n\n"+
-                    "Subject: " + subject.text() +"\n"
-                    + "Date: " + date.text() +"\n"
-                    + "To: " + receiver.text() + "\n"
-                    + "Sender: " + sender_name.text() + " " + sender_mail.text() +"\n"
-                    + "Content: \n" + util.wrap(content.text(),75)
-            );
-            System.out.println("\n\nFunctions: \nback");
-            Scanner scanner = new Scanner(System.in);
-            String cmd = scanner.nextLine();
+        WordUtils util = new WordUtils();
+        System.out.println( "\n\n"+
+                "Subject: " + subject.text() +"\n"
+                + "Date: " + date.text() +"\n"
+                + "To: " + receiver.text() + "\n"
+                + "Sender: " + sender_name.text() + " " + sender_mail.text() +"\n"
+                + "Content: \n" + util.wrap(content.text(),75)
+        );
+        System.out.println("\n\nFunctions: \nback");
+        Scanner scanner = new Scanner(System.in);
+        String cmd = scanner.nextLine();
 
 
-            switch(cmd)
+        switch(cmd)
+        {
+            case("back"):
             {
-                case("back"):
-                {
-                    goBack();
-                    break;
-
-                }
-                case("logout"):
-                {
-                    logout();
-                    break;
-                }
+                goBack();
+                break;
 
             }
+            case("logout"):
+            {
+                logout();
+                break;
+            }
+
+        }
 
 
     }
@@ -429,7 +429,8 @@ public class YandexMail {
             setCookies(response.getHeaders("Set-Cookie"));
             response.close();
 
-            cookieMap.put("lite", "|483659962");
+
+            cookieMap.put("lite", "|540005395|540019705");
             cookieMap.put("_skin", "lite");
 
             response = sendGetRequest("https://mail.yandex.com/", client);
@@ -440,6 +441,11 @@ public class YandexMail {
         {
             System.out.println("IO error!");
             System.exit(1);
+        }
+        catch(NullPointerException nx)
+        {
+            System.out.println("Error!");
+            System.exit(2);
         }
 
 
